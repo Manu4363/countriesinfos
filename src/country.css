@@ -1,0 +1,15 @@
+.country {
+    padding: 50px;
+}
+
+.flag {
+    display: block;
+    width: 600px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.btn-secondary {
+    display: inline-block;
+    margin-bottom: 30px;
+}

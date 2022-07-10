@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {Container, Card, Col, Row, Button} from 'react-bootstrap';
+import { Container, Card, Col, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Countries = () => {
     const [countries, setCountries] = useState([])
@@ -14,10 +15,10 @@ const Countries = () => {
         fetchCountryData()
     }, [])
 
-
     return ( 
         <Row xs={1} md={4} className="g-3">
         {countries.length && countries.map((country, index) => {
+                const {name} = country
                 return (
                     <Container className="py-3">
                         <Col key={index}>
@@ -26,7 +27,7 @@ const Countries = () => {
                                 <Card.Body> 
                                     <Card.Text className="mb-2"><strong>{country.translations.fra.common}</strong></Card.Text>
                                     <Card.Text className="mb-2 text-muted">Capital : {country.capital}</Card.Text>                              
-                                    <Button variant="primary" size="sm">En savoir plus</Button>{' '}                                            
+                                    <Link to={`/countries/${country.name.common}`} className='btn btn-primary'>En savoir plus</Link>                                           
                                 </Card.Body>
                             </Card>
                         </Col>
