@@ -45,7 +45,7 @@ const Country = () => {
                                 <h5>Monnaie : {currencies[0].name}</h5>
                                 <h5>Frontières communes :  
                                     {
-                                    borders.join(" | ")
+                                        (borders) ? borders.join(" | ") : "Pas de frontières pour ce pays"
                                     }
                                 </h5>
                             </div>

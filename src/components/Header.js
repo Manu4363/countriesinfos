@@ -1,5 +1,4 @@
 import React from 'react';
-import Toggle from './Toggle';
 
 const Header = () => {
   return (
