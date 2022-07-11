@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Card, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Loader from './Loader';
 
 const Countries = () => {
+
+    const continents = ["Africa", "America", "Asia", "Europe", "Oceania"]
     const [countries, setCountries] = useState([])
     const [loader, setLoader] = useState(true)
+    const [selectedContinent, setSelectedContinent] = useState()
 
     const fetchCountryData = async() => {
         const response = await fetch("https://restcountries.com/v3.1/all")
@@ -21,25 +23,55 @@ const Countries = () => {
         fetchCountryData()
     }, [])
 
-    return loader ? <Loader /> : ( 
-        <Row xs={1} md={4} className="g-3">
-        {countries.length && countries.map((country, index) => {
-                return (
-                    <Container className="py-3">
-                        <Col key={index}>
-                            <Card style={{ width: '24rem' }}>
-                                <Card.Img variant="top" src={ country.flags.svg } />
-                                <Card.Body> 
-                                    <Card.Text className="mb-2"><strong>{country.translations.fra.common}</strong></Card.Text>
-                                    <Card.Text className="mb-2 text-muted">Capital : {country.capital}</Card.Text>                              
-                                    <Link to={`/countries/${country.name.common}`} className='btn btn-primary'>En savoir plus</Link>                                           
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Container>
-                )
-            })} 
-        </Row>
+    return loader ? <Loader /> : (
+        <>
+            <section className="filter">
+        
+                <form className="form-control" action="">
+                    <input type="search" name="search" id="search" placeholder="Rechercher un pays" />
+                </form>
+                <ul className='continents'>
+                    {
+                        continents.map((continent) => 
+                            <li>
+                                <input 
+                                    type="radio" 
+                                    name="continent-radio"
+                                    className='continent-radio'
+                                    checked={continent === selectedContinent} 
+                                    id={continent} 
+                                    onChange={(e) => setSelectedContinent(e.target.id)} 
+                                />
+                                <label htmlFor={continent}>{continent}</label>
+                            </li>
+                        )
+                    }
+                </ul>
+                
+            </section>
+            <section className='countries'>
+                
+                {countries
+                .filter((country) => selectedContinent ? country.continents[0].includes(selectedContinent) : countries)
+                .sort((a, b) => b.population - a.population)
+                .map((country) => {
+                    return (
+                        <article key={country.numericCode}>
+                            <div>
+                                <img src={country.flags.png} alt={country.name.common} />
+                                <div className="details">
+                                    <h3>{country.translations.fra.common}</h3>
+                                    <h4>Région : <span>{country.region}</span></h4>
+                                    <h4>Capitale : <span>{country.capital}</span></h4>
+                                    <h4>Population : <span>{country.population.toLocaleString()}</span></h4>
+                                    <Link to={`/countries/${country.name.common}`} className='btn btn-primary'>En savoir plus</Link>                                
+                                </div>
+                            </div>
+                        </article>
+                    )
+                })}
+            </section>
+        </>
     )
                 
             

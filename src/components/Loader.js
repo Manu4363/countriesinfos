@@ -1,9 +1,9 @@
 import React from 'react';
-import LoaderGIF from '../loader.gif';
+import LoaderGIF from '../loader.jpg';
 
 const Loader = () => {
   return (
-    <img src={LoaderGIF} alt="" className='loading' />
+    <img src={LoaderGIF} alt="" className='loading' width="100" height="100" />
     
   )
 }

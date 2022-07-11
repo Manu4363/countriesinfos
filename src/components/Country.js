@@ -1,6 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../country.css';
 
@@ -17,7 +16,6 @@ const Country = () => {
         const response = await fetch(url)
         const country = await response.json()
         setCountry(country)
-        console.log(country);
     }
 
     fetchCountryData()
@@ -26,13 +24,14 @@ const Country = () => {
   return (
     <>
         <section className="country">
-            <Link to='/' className='btn btn-secondary'>Retour</Link>
+            <Link to='/' className='btn btn-light'>
+                <i className="fas fa-arrow-left"></i>Retour</Link>
             {
                 country.map((c) => {
-                    const {fifa, flags, name, capital, population, region, subregion, languages, currencies, borders } = c
+                    const {numericCode, flags, name, capital, population, region, subregion, languages, currencies, borders } = c
 
                     return (
-                        <article key={fifa}>
+                        <article key={numericCode}>
                             <div className='flag-country'>
                                 <img src={flags.svg} alt={name} className="flag" />
                             </div>
@@ -43,7 +42,7 @@ const Country = () => {
                                 <h5>Sous-région : {subregion}</h5>
                                 <h5>Langues : {languages[0].name}</h5>
                                 <h5>Monnaie : {currencies[0].name}</h5>
-                                <h5>Frontières communes :  
+                                <h5>Frontières communes :&nbsp;
                                     {
                                         (borders) ? borders.join(" | ") : "Pas de frontières pour ce pays"
                                     }

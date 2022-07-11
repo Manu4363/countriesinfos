@@ -7,9 +7,9 @@ const Header = () => {
             <div>
                 <h1>Countries REST API</h1>
             </div>
-            <div>
+            {/* <div>
                <i className='fas fa-moon'></i>Dark mode
-            </div>
+            </div> */}
         </header>
       
     </>
