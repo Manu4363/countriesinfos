@@ -53,6 +53,10 @@ body {
   color: var(--dark-bg-color);
 }
 
+.count p {
+  margin: 0 20px;
+}
+
 /* Continents */
 .continents {
   display: flex;

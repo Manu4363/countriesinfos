@@ -1,39 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from './Loader';
+import axios from 'axios';
 
 const Countries = () => {
 
-    const continents = ["Africa", "America", "Asia", "Europe", "Oceania"]
+    const continents = ["Africa", "America", "Antarctic", "Asia", "Europe", "Oceania"]
     const [countries, setCountries] = useState([])
     const [loader, setLoader] = useState(true)
     const [selectedContinent, setSelectedContinent] = useState()
-
-    const fetchCountryData = async() => {
-        const response = await fetch("https://restcountries.com/v3.1/all")
-        const countries = await response.json()
-        setCountries(countries)
-    }
 
     useEffect(() => {
         setTimeout(() => {
             setLoader(false)
         }, 1000)
 
-        fetchCountryData()
+        axios.get("https://restcountries.com/v3.1/all").then((res) => setCountries(res.data));
+        
     }, [])
 
     return loader ? <Loader /> : (
         <>
             <section className="filter">
-        
                 <form className="form-control" action="">
                     <input type="search" name="search" id="search" placeholder="Rechercher un pays" />
-                </form>
+                </form>  
                 <ul className='continents'>
                     {
-                        continents.map((continent) => 
-                            <li>
+                        continents.map((continent, index) => 
+                            <li key={index}>
                                 <input 
                                     type="radio" 
                                     name="continent-radio"
@@ -47,16 +42,18 @@ const Countries = () => {
                         )
                     }
                 </ul>
-                
+            </section>
+            <section className='count'>
+                <p>Nombre de pays : <strong>{selectedContinent ? countries.filter((country) => country.region.includes(selectedContinent)).length : countries.length}</strong></p>
             </section>
             <section className='countries'>
                 
                 {countries
                 .filter((country) => selectedContinent ? country.continents[0].includes(selectedContinent) : countries)
                 .sort((a, b) => b.population - a.population)
-                .map((country) => {
+                .map((country, index) => {
                     return (
-                        <article key={country.numericCode}>
+                        <article key={index}>
                             <div>
                                 <img src={country.flags.png} alt={country.name.common} />
                                 <div className="details">

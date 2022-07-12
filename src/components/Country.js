@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../country.css';
+import axios from 'axios';
 
 const Country = () => {
 
@@ -11,15 +12,8 @@ const Country = () => {
   
 
   useEffect(() => {
-    
-    const fetchCountryData = async() => {
-        const response = await fetch(url)
-        const country = await response.json()
-        setCountry(country)
-    }
-
-    fetchCountryData()
-  }, [])
+    axios.get(url).then((res) => setCountry(res.data));
+}, [])
   
   return (
     <>
