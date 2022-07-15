@@ -10,7 +10,7 @@ function App() {
         <Header />
         <Routes>
           <Route exact path='/' element={<Countries />}></Route>
-          <Route path="/countries/:name" element={<Country />}></Route>
+          <Route path="/countries/:cioc" element={<Country />}></Route>
         </Routes>
         
       </Router>

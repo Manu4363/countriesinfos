@@ -61,7 +61,7 @@ const Countries = () => {
                                     <h4>Région : <span>{country.region}</span></h4>
                                     <h4>Capitale : <span>{country.capital}</span></h4>
                                     <h4>Population : <span>{country.population.toLocaleString()}</span></h4>
-                                    <Link to={`/countries/${country.name.common}`} className='btn btn-primary'>En savoir plus</Link>                                
+                                    <Link to={`/countries/${country.cioc}`} className='btn btn-primary'>En savoir plus</Link>                                
                                 </div>
                             </div>
                         </article>

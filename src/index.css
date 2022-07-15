@@ -1,6 +1,7 @@
 :root {
   --dark-bg-color: #202D36;
   --dark-text-color: #FFF;
+  --article-color: #2b3743;
 }
 
 *
@@ -88,7 +89,7 @@ body {
 }
 
 .countries .details {
-  background-color: #2b3743;
+  background-color: var(--article-color);
   padding: 40px 20px;
   margin-top: -20px;
   border-radius: 0 0 5px 5px;
@@ -111,7 +112,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #2b3743;
+    background-color: var(--article-color);
     padding: 10px 20px;
 }
 
@@ -129,7 +130,7 @@ body {
 
 .filter .form-control input{
   font-family: inherit;
-  background-color: #2b3743;
+  background-color: var(--article-color);
   border: none;
   outline: none;
   padding: 12px;
@@ -142,17 +143,6 @@ body {
 
 .filter .form-control input::placeholder{
   color: #FFF;
-}
-
-.filter .region-filter .select {
-  background-color: #2b3743;
-  color: #FFF;
-  font-family: inherit;
-  padding: 12px;
-  width: 200px;
-  border: none;
-  border-radius: 5px;
-
 }
 
 /* Responsive design */
