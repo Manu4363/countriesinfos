@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from './Loader';
 import axios from 'axios';
+import Filter from './Filter';
 
 const Countries = () => {
 
     const continents = ["Africa", "America", "Antarctic", "Asia", "Europe", "Oceania"]
     const [countries, setCountries] = useState([])
+    const [filtered, setFiltered] = useState([])
+    const [searchInput, setSearchInput] = useState("")
     const [loader, setLoader] = useState(true)
     const [selectedContinent, setSelectedContinent] = useState()
 
@@ -19,12 +22,25 @@ const Countries = () => {
         
     }, [])
 
+    const searchCountries = (searchValue) => {
+        setSearchInput(searchValue)
+
+        if (searchInput) {
+            const filteredCountries = countries.filter((country) => (
+                Object.values(country).join("").toLowerCase().includes(searchValue.toLowerCase())
+            ))
+            setFiltered(filteredCountries)
+        } else {
+            setFiltered(countries)
+        }
+    }
+
     return loader ? <Loader /> : (
         <>
             <section className="filter">
-                <form className="form-control" action="">
-                    <input type="search" name="search" id="search" placeholder="Rechercher un pays" />
-                </form>  
+                
+                <Filter searchCountries={searchCountries} searchInput={searchInput} />
+                
                 <ul className='continents'>
                     {
                         continents.map((continent, index) => 
@@ -46,9 +62,9 @@ const Countries = () => {
             <section className='count'>
                 <p>Nombre de pays : <strong>{selectedContinent ? countries.filter((country) => country.region.includes(selectedContinent)).length : countries.length}</strong></p>
             </section>
-            <section className='countries'>
+            {searchInput > 0 ? <section className='countries'>
                 
-                {countries
+                {filtered
                 .filter((country) => selectedContinent ? country.continents[0].includes(selectedContinent) : countries)
                 .sort((a, b) => b.population - a.population)
                 .map((country, index) => {
@@ -57,7 +73,7 @@ const Countries = () => {
                             <div>
                                 <img src={country.flags.png} alt={country.name.common} />
                                 <div className="details">
-                                    <h3>{country.translations.fra.common}</h3>
+                                    <h3 className='country-name'>{country.translations.fra.common}</h3>
                                     <h4>Région : <span>{country.region}</span></h4>
                                     <h4>Capitale : <span>{country.capital}</span></h4>
                                     <h4>Population : <span>{country.population.toLocaleString()}</span></h4>
@@ -67,7 +83,28 @@ const Countries = () => {
                         </article>
                     )
                 })}
-            </section>
+            </section> : <section className='countries'>
+                
+                {filtered
+                .filter((country) => selectedContinent ? country.continents[0].includes(selectedContinent) : countries)
+                .sort((a, b) => b.population - a.population)
+                .map((country, index) => {
+                    return (
+                        <article key={index}>
+                            <div>
+                                <img src={country.flags.png} alt={country.name.common} />
+                                <div className="details">
+                                    <h3 className='country-name'>{country.translations.fra.common}</h3>
+                                    <h4>Région : <span>{country.region}</span></h4>
+                                    <h4>Capitale : <span>{country.capital}</span></h4>
+                                    <h4>Population : <span>{country.population.toLocaleString()}</span></h4>
+                                    <Link to={`/countries/${country.cioc}`} className='btn btn-primary'>En savoir plus</Link>                                
+                                </div>
+                            </div>
+                        </article>
+                    )
+                })}
+            </section>}
         </>
     )
                 

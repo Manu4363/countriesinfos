@@ -77,15 +77,7 @@ const Country = () => {
 
                                 <div>
                                     <h5>
-                                    Monnaie: <span>{
-                                        Object.entries(currencies).map(([key, value]) => {
-                                            return (
-                                                <ul>
-                                                    <li>{Object.values(value)[0]}</li>
-                                                </ul>
-                                            )
-                                        })
-                                    }
+                                    Monnaie: <span>{ Object.entries(currencies).map(([key, value]) => Object.values(value)[0])}
                                     </span>
                                     </h5>
                                     <h5>
